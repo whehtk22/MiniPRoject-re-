@@ -1,4 +1,4 @@
-package mini.chat.db;
+package com.mini.db;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
