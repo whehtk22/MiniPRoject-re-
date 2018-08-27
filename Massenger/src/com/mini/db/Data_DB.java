@@ -14,22 +14,28 @@ public class Data_DB {
 		
 		private File target = new File("Text","Text.db");
 		
-		public void TextDB() throws IOException {
+		public void textDb(String line){
 				
-			FileWriter fw = new FileWriter(target);
-			BufferedWriter bw = new BufferedWriter(fw);
-			PrintWriter SaveText = new PrintWriter(bw);
+			FileWriter fw;
+			try {
+				fw = new FileWriter(target);
+				BufferedWriter bw = new BufferedWriter(fw);
+				PrintWriter SaveText = new PrintWriter(bw);
+				SaveText.write(line);
+			} catch (IOException e) {
+				
+			}
 			
 		}
 		
-		public void ImageDB() {
+		public void imageDb(BufferedImage bf) {
 			
 			JFileChooser chooser = new JFileChooser(".");
 			chooser.setFileFilter(new FileNameExtensionFilter("PNG 이미지", "png"));
 			chooser.setFileFilter(new FileNameExtensionFilter("JPEG 이미지", "jpg"));
 			chooser.setFileFilter(new FileNameExtensionFilter("GIF 이미지", "gif"));
-			
-			int choice = chooser.showSaveDialog(panel);
+			int choice = chooser.showSaveDialog(new Dialog());
+			System.out.println("이미지 저장");
 			if(choice == 0) {
 				File target = chooser.getSelectedFile();
 				
@@ -38,22 +44,24 @@ public class Data_DB {
 				System.out.println("filename = "+filename);
 				System.out.println("extension = "+extension);
 				
-				ImageIcon icon = (ImageIcon) lb.getIcon();
-				
 				BufferedImage img = 
-						new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), 
-																		BufferedImage.TYPE_INT_ARGB);
-				ImageIO.write(img, extension, target);
+						new BufferedImage(bf.getWidth(),bf.getHeight(), 
+										5);
+				Graphics pen = img.getGraphics();
 				
-//				Graphics pen = img.getGraphics();
-//				
-//				pen.drawImage(icon.getImage(), 0, 0, img.getWidth(), img.getHeight(), null);
-//				
+				pen.drawImage(img, 0, 0, bf.getWidth(), bf.getHeight(), null);
+				
+				try {
+					ImageIO.write(img, "jpg", new File("image.jpg"));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 //				try {
-//					ImageIO.write(img, extension, target);
-//				} catch (IOException e1) {
-//					e1.printStackTrace();
+//					ImageIO.write(img, "jpg", new File("image.jpg"));
+//				} catch (IOException e) {
+//					
 //				}
+				
 			}
 			
 		}
