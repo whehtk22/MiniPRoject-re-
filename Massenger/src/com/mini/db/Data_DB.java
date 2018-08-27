@@ -14,7 +14,7 @@ public class Data_DB {
 		
 		private File target = new File("Text","Text.db");
 		
-		public void textDb(String line){
+		public void saveText(String line){
 				
 			FileWriter fw;
 			try {
@@ -25,10 +25,9 @@ public class Data_DB {
 			} catch (IOException e) {
 				
 			}
-			
 		}
 		
-		public void imageDb(BufferedImage bf) {
+		public void saveImage(BufferedImage bf) {
 			
 			JFileChooser chooser = new JFileChooser(".");
 			chooser.setFileFilter(new FileNameExtensionFilter("PNG ¿ÃπÃ¡ˆ", "png"));
