@@ -16,7 +16,6 @@ public class Client_Main {
 		return socket;
 	}
 
-
 	public void setSocket(Socket socket) {
 		this.socket = socket;
 	}
@@ -29,7 +28,7 @@ public class Client_Main {
 			this.inet = InetAddress.getByName(ip);
 			socket = new Socket(inet, port);
 		} catch (IOException e) {
-			System.err.println("ipì •ë³´ë¥¼ ê°€ì ¸ì˜¤ì§€ëª»í–ˆìŠµë‹ˆë‹¤.");
+			System.err.println("ip¸¦ ºÒ·¯¿À´Âµ¥ ¹®Á¦°¡ ¹ß»ý");
 			e.printStackTrace();
 		}
 	}

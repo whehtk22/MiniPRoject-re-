@@ -8,7 +8,7 @@ public class InputStreamException extends Exception{
 		return error;
 	}
 	
-	public static String 
+//	public static String 
 	@Override
 	public void printStackTrace() {
 		

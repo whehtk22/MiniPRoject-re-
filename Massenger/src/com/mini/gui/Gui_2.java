@@ -24,13 +24,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.mini.client.send;
 
-class Gui extends JFrame{
-	private int port=50000;
-	private String ip="192.168.0.3";
-	private InetAddress inet;
+class Gui_2 extends JFrame{
+	
+	/*
+	 * 클라이언트 클래스를 불러와  사용자의 정보와 서버의 정보를 입력
+	 */
 	private Socket socket;
-
-
+	
 	private JPanel con = new JPanel();
 	private JTextArea text = new JTextArea(); 
 	private JLabel imgLabel = new JLabel();
@@ -58,10 +58,8 @@ class Gui extends JFrame{
 		 * 파일 보내기 현재는 이미지만 가능하다.
 		 */
 		file.addActionListener(e->{
-			JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
-			fc.setFileFilter(new FileNameExtensionFilter("PNG이미지","png"));
-			fc.setFileFilter(new FileNameExtensionFilter("JPEG이미지","jpg"));
-			fc.setFileFilter(new FileNameExtensionFilter("GIF이미지","gif"));
+			send s = new send(this.socket);
+			s.showFilePage();
 			int imgFile = fc.showOpenDialog(con);
 			if(imgFile==0) {
 				File f = fc.getSelectedFile();
@@ -99,11 +97,11 @@ class Gui extends JFrame{
 	public void menu() {
 
 	}
-	public Gui() {
+	public Gui_2(Socket socket) {
 		this.display();
 		this.event();
 		this.menu();
-
+		this.socket = socket;
 		this.setTitle("messenger");
 		this.setLocationByPlatform(true);
 		this.setSize(400, 400);
