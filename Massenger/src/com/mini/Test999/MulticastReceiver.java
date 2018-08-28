@@ -1,0 +1,25 @@
+package com.mini.Test999;
+
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
+
+public class MulticastReceiver {
+	public static void main(String[] args) {
+		
+		try {
+			InetAddress group = InetAddress.getByName("230.230.230.230");
+			MulticastSocket multicast = new MulticastSocket(50000);
+			multicast.joinGroup(group);
+			
+			byte[] buffer = new byte[1024];
+			
+			DatagramPacket packet = new DatagramPacket(buffer,buffer.length);
+			multicast.receive(packet);
+			System.out.println(new String(buffer));
+			multicast.close();
+		}catch(Exception e) {
+			
+		}
+	}
+}
