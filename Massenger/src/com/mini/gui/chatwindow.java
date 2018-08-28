@@ -4,7 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.Border;
-
+import java.io.*;
+import java.net.*;
+import javax.imageio.*;
 /**
  *	Swing에서 사용하는 Frame : JFrame 
  */
