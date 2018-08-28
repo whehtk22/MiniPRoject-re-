@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
@@ -15,44 +16,37 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class send extends Thread{
+	private int port=50000;
+	private String ip="192.168.0.3";
+	private InetAddress inet;
 	private Socket socket;
-	private ImageOutputStream stream;
-//	private DataOutputStream ds = new 
+	private boolean flag= true;
 
-	public send(Socket socket) {
+	
+	public Socket getSocket() {
+		return socket;
+	}
+	public void setSocket(Socket socket) {
 		this.socket = socket;
+	}
+	public send() {
 		try {
-			OutputStream outStream=socket.getOutputStream();
+			this.inet = InetAddress.getByName(this.ip);
+			this.socket = new Socket(inet, port);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
 	}
-	public void sendImg(JFileChooser fc, int imgFile) {
-		
-		if(imgFile==0) {
-			File f = fc.getSelectedFile();
-			try {
-				String filename = f.getName();
-				String extension = filename.substring(filename.lastIndexOf(".")+1);
+//	@Override
+//	public void run() {
+//		try {
+//			while(flag) {
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
-				BufferedImage bi  = ImageIO.read(f);
-				OutputStream outStream=socket.getOutputStream();
-				ImageIO.write(bi, extension, outStream);
-				outStream.close();
-				socket.close();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-	}
-	public JFileChooser showFilePage() {
-		JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
-		fc.setFileFilter(new FileNameExtensionFilter("PNG파일","png"));
-		fc.setFileFilter(new FileNameExtensionFilter("JPEG파일","jpg"));
-		fc.setFileFilter(new FileNameExtensionFilter("GIF파일","gif"));
-		return fc;
-	}
-	
-	
 }
+

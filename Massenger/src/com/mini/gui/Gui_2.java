@@ -25,12 +25,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.mini.client.send;
 
 class Gui_2 extends JFrame{
-	
-	/*
-	 * 클라이언트 클래스를 불러와  사용자의 정보와 서버의 정보를 입력
-	 */
-	private Socket socket;
-	
 	private JPanel con = new JPanel();
 	private JTextArea text = new JTextArea(); 
 	private JLabel imgLabel = new JLabel();
@@ -38,70 +32,47 @@ class Gui_2 extends JFrame{
 	private JButton file = new JButton("파일");
 	private JLabel status = new JLabel("상태표시",JLabel.CENTER);
 	private JPanel testPanel = new JPanel();
-
+	private send s;
 	public void display() {
 		this.setContentPane(con);
 		con.setLayout(new BorderLayout());
 		con.add(status,BorderLayout.NORTH);
-		//	con.add(imgLabel, BorderLayout.CENTER);
 		con.add(text, BorderLayout.CENTER);
 		con.add(testPanel, BorderLayout.SOUTH);
 		testPanel.add(summit);
 		testPanel.add(file);
-		//		con.add(summit, BorderLayout.SOUTH);
 
 	}
 
 	public void event() {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		/*
-		 * 파일 보내기 현재는 이미지만 가능하다.
-		 */
+		
 		file.addActionListener(e->{
-			send s = new send(this.socket);
-			s.showFilePage();
-			int imgFile = fc.showOpenDialog(con);
+			s = new send();
+			Data_class dc = new Data_class(s.getSocket());
+			int imgFile = dc.chooseFile().showOpenDialog(con);
 			if(imgFile==0) {
-				File f = fc.getSelectedFile();
-				try {
-					socket = new Socket(InetAddress.getByName(this.ip),port);
-					String filename = f.getName();
-					String extension = filename.substring(filename.lastIndexOf(".")+1);
-
-					BufferedImage bi  = ImageIO.read(f);
-					OutputStream outStream=socket.getOutputStream();
-					ImageIO.write(bi, extension, outStream);
-					outStream.close();
-					socket.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				File f = dc.chooseFile().getSelectedFile();
+				boolean ox =dc.sendIngFile(f);
+				System.out.println(ox);
 			}
 
 		});
-		/*
-		 * 
-		 */
+		
 		summit.addActionListener(e->{
-			try {
-				socket = new Socket(InetAddress.getByName(this.ip),port);
-				PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
-				out.println(text.getText());
-				out.flush();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			s = new send();
+			Data_class dc = new Data_class(s.getSocket());
+			dc.sendMessage(text.getText());
 		});
 		
 	}
 	public void menu() {
 
 	}
-	public Gui_2(Socket socket) {
+	public Gui_2() {
 		this.display();
 		this.event();
 		this.menu();
-		this.socket = socket;
 		this.setTitle("messenger");
 		this.setLocationByPlatform(true);
 		this.setSize(400, 400);
