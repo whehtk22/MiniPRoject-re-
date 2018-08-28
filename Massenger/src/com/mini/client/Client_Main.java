@@ -9,18 +9,14 @@ public class Client_Main {
 	private int port;
 	private String ip;
 	private InetAddress inet;
-	private Socket socket;
+	private static Socket socket;
 	
-	
-	public Socket getSocket() {
+	public static Socket getSocket() {
 		return socket;
 	}
-
 	public void setSocket(Socket socket) {
 		this.socket = socket;
 	}
-
-
 	public Client_Main(int port, String ip) {
 		this.port = port;
 		this.ip = ip;
@@ -28,7 +24,7 @@ public class Client_Main {
 			this.inet = InetAddress.getByName(ip);
 			socket = new Socket(inet, port);
 		} catch (IOException e) {
-			System.err.println("ip를 불러오는데 문제가 발생");
+			System.err.println("서버접속하는데 문제가 발생");
 			e.printStackTrace();
 		}
 	}

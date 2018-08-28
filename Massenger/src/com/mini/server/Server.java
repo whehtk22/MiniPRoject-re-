@@ -12,7 +12,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 
-import com.itbank.test.Frame;
+//import com.itbank.test.Frame;
 
 public class Server {
 	
@@ -42,20 +42,20 @@ public class Server {
 		String text = new String(buffer,0,size);//받은 데이터를 스트링으로 변환하는 과정
 		//데이터를 저장할 곳 미정
 	}
-	public void receiveStr() {
+	public void receiveStr() throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		while(true) {
 			String line = in.readLine();
 			//데이터를 저장할 곳 미정
 		}
 	}
-	public void receiveObj() {
+	public void receiveObj() throws IOException, ClassNotFoundException {
 		ObjectInputStream in = new ObjectInputStream(socket.getInputStream());//예외처리 아직 안함
 		List<String>list = (List<String>)in.readObject();//아직 어떤 오브젝트인지는 정해야 함
 		
 	}
 	public void receiveImg() throws IOException {
-		BufferedImage bf;
+		BufferedImage bf = null;
 		try {
 			bf = ImageIO.read(socket.getInputStream());
 		} catch (IOException e) {

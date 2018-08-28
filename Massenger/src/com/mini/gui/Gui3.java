@@ -22,9 +22,9 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.mini.client.send;
+import com.mini.client.*;
 
-class Gui_2 extends JFrame{
+public class Gui3 extends JFrame{
 	private JPanel con = new JPanel();
 	private JTextArea text = new JTextArea(); 
 	private JLabel imgLabel = new JLabel();
@@ -32,55 +32,42 @@ class Gui_2 extends JFrame{
 	private JButton file = new JButton("파일");
 	private JLabel status = new JLabel("상태표시",JLabel.CENTER);
 	private JPanel testPanel = new JPanel();
-	private send s;
+
 	public void display() {
 		this.setContentPane(con);
 		con.setLayout(new BorderLayout());
 		con.add(status,BorderLayout.NORTH);
+		//	con.add(imgLabel, BorderLayout.CENTER);
 		con.add(text, BorderLayout.CENTER);
 		con.add(testPanel, BorderLayout.SOUTH);
 		testPanel.add(summit);
 		testPanel.add(file);
+		//		con.add(summit, BorderLayout.SOUTH);
 
 	}
 
 	public void event() {
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		WindowListener w = new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-				try {
-					s.getSocket().close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				System.exit(0);
-			}
-		};
-		
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		/*
+		 * 파일 보내기 현재는 이미지만 가능하다.
+		 */
 		file.addActionListener(e->{
-			s = new send();
-			Data_class dc = new Data_class(s.getSocket());
-			int imgFile = dc.chooseFile().showOpenDialog(con);
-			if(imgFile==0) {
-				File f = dc.chooseFile().getSelectedFile();
-				boolean ox =dc.sendIngFile(f);
-				System.out.println(ox);
-			}
-
+			Data_class2 dc = new Data_class2();
+			dc.sendImg();
 		});
-		
+		/*
+		 * 문자열 전송
+		 */
 		summit.addActionListener(e->{
-			s = new send();
-			Data_class dc = new Data_class(s.getSocket());
-			dc.sendMessage(text.getText());
+			Data_class2 dc = new Data_class2();
+			dc.sendStr(text.getText());
 		});
 		
 	}
 	public void menu() {
 
 	}
-	public Gui_2() {
+	public Gui3() {
 		this.display();
 		this.event();
 		this.menu();

@@ -15,7 +15,7 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class send extends Thread{
+public class send{
 	private int port=50000;
 	private String ip="192.168.0.3";
 	private InetAddress inet;
