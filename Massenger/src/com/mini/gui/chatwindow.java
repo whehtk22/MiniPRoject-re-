@@ -34,7 +34,7 @@ class Window02 extends JFrame{
 	private JMenuItem item9 = new JMenuItem("옵션3-3");
 	
 	private JButton btsend = new JButton("전송");
-	private JButton bticon1 = new JButton("파일버튼");
+	private JButton bticon1 = new JButton("file");
 	private JButton bticon2 = new JButton("파일버튼");
 	private JButton bticon3 = new JButton("파일버튼");
 	private JButton bticon4 = new JButton("파일버튼");

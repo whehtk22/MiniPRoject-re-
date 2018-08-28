@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
+/*
+ * 
+ */
 public class Client_Main {
 	private int port;
 	private String ip;
