@@ -20,12 +20,10 @@ public class ClientDB extends Thread {
 
 	private Server server;
 	
-	public Client(Server server,Socket socket) throws IOException {
+	public ClientDB(Server server, Socket socket) throws IOException {
 		this.server=server;
 		this.socket = socket;
-		this.in = new ObjectInputStream(socket.getInputStream());
-		this.out = new ObjectOutputStream(socket.getOutputStream());
-	}
+	}                                
 
 	@Override
 	public void run() {

@@ -1,7 +1,13 @@
 package com.mini.gui;
 
 import java.awt.*;
+import com.mini.*;
+import com.mini.client.clientData;
+import com.mini.db.clientUserDb;
+
 import java.awt.event.*;
+import java.io.IOException;
+
 import javax.swing.*;
 
 /**
@@ -20,11 +26,10 @@ class Window03 extends JFrame{
 	private JButton btok = new JButton("확인");
 	private JButton btcan = new JButton("취소");
 	
-	private JTextArea namearea = new JTextArea();
-	private JTextArea idarea = new JTextArea();
+	private JTextField namearea = new JTextField();
+	private JTextField idarea = new JTextField();
 	private JPasswordField pwfield = new JPasswordField();
 	private JPasswordField pwofield = new JPasswordField();
-	
 	
 	
 	public Window03() {
@@ -114,8 +119,30 @@ class Window03 extends JFrame{
 			System.exit(0);
 		});
 		
-		//화인 버튼 입력시 
+		//확인 버튼 입력시 
 		btok.addActionListener(e->{
+			String id = idarea.getText();
+			String pw = pwfield.getText();
+			String name = namearea.getText();
+			System.out.println(name);
+			
+			
+			if(pwfield.getText().equals(pwofield.getText())) {
+//			[1] 실행부분
+			clientUserDb userInfo = new clientUserDb(id, pw, name);
+			
+			try {
+				clientData data = new clientData(userInfo);
+//				[3] clientData 객체 생성
+				data.clientUserSave(userInfo);
+			} catch (Exception e1) {}
+			
+			}
+			else {
+				System.out.println("비밀번호가 일치하지 않습니다.");
+			}
+			
+			
 			
 		});
 
