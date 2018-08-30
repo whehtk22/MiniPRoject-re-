@@ -61,7 +61,7 @@ public class Client_cennection {
 	public int getChatPort() {
 		return chatPort;
 	}
-	void receivePort() throws IOException {
+	public void receivePort() throws IOException {
 		datain = new DataInputStream(socket.getInputStream());
 //		System.out.println(datain.readInt());
 		this.chatPort =datain.readInt();
@@ -74,10 +74,17 @@ public class Client_cennection {
 		byte[] name = chatName.getBytes();
 		dataout.write(name);
 	}
+	public void sendSurchRoomname(String str)throws IOException {
+		dataout = new DataOutputStream(socket.getOutputStream());
+		String chatName =str;
+		byte[] name = chatName.getBytes();
+		dataout.write(name);
+	}
+	
 	void closeConnection() throws IOException {
 		socket.close();
 	}
-	public void receiveRoomPort() {
+	public void receiveNewRoomPort() {
 		try {
 			receivePort();
 			sendRoomName();
@@ -85,6 +92,16 @@ public class Client_cennection {
 			closeConnection();
 		}catch(Exception e) {
 			e.printStackTrace();
+		}
+	}
+	public int receiveSurchRoomPort(String str) {
+		try {
+			sendSurchRoomname(str);
+			receivePort();
+			closeConnection();
+			return this.getChatPort();
+		}catch(Exception e) {
+			return 666;
 		}
 	}
 
