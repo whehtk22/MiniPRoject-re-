@@ -15,8 +15,7 @@ import com.mini.client.*;
 public class chatwindow extends JFrame{
 	private Client_cennection cm;
 	private ChatReceiver mr;
-	private StringBuffer sb = new StringBuffer();
-	
+
 	//컴포넌트를 배치할 영역을 JPanel로 구현
 	private JPanel con = new JPanel();
 
@@ -44,8 +43,8 @@ public class chatwindow extends JFrame{
 	private JButton bticon4 = new JButton("파일버튼");
 
 
-	private JTextArea tx = new JTextArea("보낼 메세지 입력");
-	private JTextArea chat = new JTextArea("주고받은 내용 표시영역");
+	private JTextArea tx = new JTextArea();
+	private JTextArea chat = new JTextArea();
 	private JLabel lb2 = new JLabel("내 이미지 상태 표시 영역");
 	private JLabel lb3 = new JLabel("대화중인 상대방 표시영역 ");
 
@@ -93,7 +92,6 @@ public class chatwindow extends JFrame{
 		con.add(btsend);
 
 		//채팅입력창
-		tx.setText("text");
 		tx.setBounds(12, 456, 360, 96);
 		con.add(tx);
 
@@ -153,6 +151,7 @@ public class chatwindow extends JFrame{
 		btsend.addActionListener(e->{
 			String str = tx.getText();
 			ChatSend cs = new ChatSend(cm);
+//			if(!str.equals("")&&str!=null)
 			cs.sendMessage(str);
 		});
 
@@ -163,23 +162,32 @@ public class chatwindow extends JFrame{
 	public void menu() {
 
 	}
+	//스레드 설정 및 문자받고 설정
+	public void startReceive() {
+		mr = new ChatReceiver(cm);
+		mr.setDaemon(true);
+		mr.start();
+		System.out.println(mr.getMmm());
+//		애초에 들어온 값이 없다면 그냥 ""를 보낸다. 그리고 받는 쪽에서 ""이면 textarea에 추가를 하지않는다.
+		if(!mr.getMmm().equals("")&&mr.getMmm()!=null) {
+			chat.append("[보낸사람정보출력]:"+mr.getMmm()+"\n");
+		}
+	}
+
 	public chatwindow(Client_cennection cm) {
 		this.cm=cm;
 		this.display();
 		this.event();
 		this.menu();
-		mr = new ChatReceiver(cm);
-		mr.setDaemon(true);
-		mr.start();
-		sb.append(mr.getMmm());//전달받은 메세지를 스트링버퍼에 저장
-		chat.setText(sb.toString());//버퍼에 저장된 내역을 출력
-		
-		this.setTitle("Swing 예제");
+		//스레드시작(문자받기)
+
+		this.setTitle("Chatting Program");
 		//		this.setLocation(100, 100);
 		this.setLocationByPlatform(true);
 		this.setSize(500, 600);
 		this.setResizable(false);
 		this.setVisible(true);
+		this.startReceive();
 	}
 }
 

@@ -17,7 +17,7 @@ public class Lobby extends JFrame{
 	private JPanel con = new JPanel();
 	private JLabel jl = new JLabel("메신저 테스트");
 	private JButton jt1 = new  JButton("채팅창 생성");
-	private JButton jt2 = new JButton("접속하기");
+	private JButton jt2 = new JButton("채팅방 찾기");
 	/**
 	 * 화면 구현 메소드
 	 */
@@ -41,12 +41,15 @@ public class Lobby extends JFrame{
 	}
 	public void event() {
 		jt1.addActionListener(e->{
-			cm.receiveRoomPort();//채팅방 이름을 전송하고 해당 채팅방의 port번호를 받는다.
+			cm.receiveNewRoomPort();//채팅방 이름을 전송하고 해당 채팅방의 port번호를 받는다.
 			JoinGroups jg =new JoinGroups(cm.getChatPort());//받은 포트 전달하여 채팅방에 연결되기 위해 필요한 group정보와 port번호를 부여
 //			System.out.println(cm.getChatPort());
 			cm.createRoom(jg);//클라이언트가 채팅방에 연결되게설정
 			this.dispose();//기존 창 닫음
 			chatwindow guiMain = new chatwindow(cm);//채팅창 업로드
+		});
+		jt2.addActionListener(e->{
+			SelectToJoinGroupList stjg = new SelectToJoinGroupList(cm);
 		});
 	}
 	
