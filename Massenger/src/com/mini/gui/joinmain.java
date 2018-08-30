@@ -126,14 +126,23 @@ class Window03 extends JFrame{
 			String name = namearea.getText();
 			System.out.println(name);
 			
-			
+//			비밀번호를 똑같이 입력했는지 검사
 			if(pwfield.getText().equals(pwofield.getText())) {
-//			[1] 실행부분
+			/**
+			 * 회원가입 부분
+			 * 아이디 비밀번호 이름 입력후 clientUserDb를 통해 저장
+			 */
 			clientUserDb userInfo = new clientUserDb(id, pw, name);
 			
+			/**
+			 * clientData 생성자를 통해 유저의 고유 파일을 생성
+			 */
 			try {
 				clientData data = new clientData(userInfo);
 //				[3] clientData 객체 생성
+				/**
+				 * clientUserData에 있는 객체를 서버에서 파일로 저장
+				 */
 				data.clientUserSave(userInfo);
 			} catch (Exception e1) {}
 			
