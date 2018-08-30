@@ -12,12 +12,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * 유저의 아이디 비밀번호 이름을 임시로 저장해주는 메소드
+ * 클라이언트만 사용
+ * @author user
+ *
+ */
 public class clientUserDb implements Serializable{
 	
 	private Map<String, String> User;
 	private String user_name;
-	private ArrayList friends = new ArrayList<>();
 	
 	
 	public clientUserDb() {
@@ -31,7 +35,6 @@ public class clientUserDb implements Serializable{
 		this.setUser(map);
 		this.setUser_name(name);
 		System.out.println(this.getUser_name());
-		
 	}
 	
 	public Map<String, String> getUser() {
@@ -49,15 +52,4 @@ public class clientUserDb implements Serializable{
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
 	}
-
-	public ArrayList getFriends() {
-		return friends;
-	}
-
-	public void setFriends(ArrayList friends) {
-		this.friends = friends;
-	}
-	
-	
-	
 }
