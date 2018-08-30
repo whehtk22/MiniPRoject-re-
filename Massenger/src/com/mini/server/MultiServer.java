@@ -22,7 +22,6 @@ public class MultiServer {
 		MulticastSocket ms = new MulticastSocket(this.port);
 		// 채널에 참가
 		ms.joinGroup(inet);
-		System.out.println("조인그룹?");
 		DatagramPacket dp;
 		while (true) {
 			byte[] data = new byte[1024];
@@ -35,25 +34,32 @@ public class MultiServer {
 		}
 	}
 
+	/**
+	 * 
+	 * @return 유저가 입력한 채팅글 내용을 입력하는 것.
+	 */
 	public String getText() {
 		return text;
 	}
-
+/**
+ * 
+ * @param text 유저가 입력한 채팅글
+ */
 	public void setText(String text) {
 		this.text = text;
 	}
-
+/**
+ * 
+ * @param msg 유저들에게 전송하는 메소드
+ */
 	void broadcast(String msg) {
 		try {
 
 			InetAddress group = InetAddress.getByName(ip);
 			MulticastSocket multicast = new MulticastSocket();
-			System.out.println(msg);
 			byte[] byt = msg.getBytes();
 			DatagramPacket packet = new DatagramPacket(byt, byt.length, group, this.port);
 			multicast.send(packet);
-			if (msg.equals("종료"))
-				multicast.close();
 		} catch (Exception e) {
 
 		}

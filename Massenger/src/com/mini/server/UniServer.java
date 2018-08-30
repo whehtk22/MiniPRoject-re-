@@ -26,8 +26,7 @@ public class UniServer {
 	private HashMap<String, Integer> chatList = new HashMap<>();
 
 	/**
-	 * 사용자에게 필요한 정보를 주고 받는 서버접속
-	 * 
+	 * 사용자에게 채팅방에 관한 정보를 제공하는 서버
 	 * @throws IOException
 	 */
 	void setConnection() throws IOException {
@@ -39,14 +38,8 @@ public class UniServer {
 	public Integer getChatPort() {
 		return chatPort;
 	}
-
-	public void setChatPort(Integer chatPort) {
-		this.chatPort = chatPort;
-	}
-
 	/**
-	 * 채팅방의 포트번호를 전송하는 메소드
-	 * 
+	 * 새롭게 만들 채팅방의 포트번호를 전송하는 메소드
 	 * @throws IOException
 	 */
 	void sendNewPort() throws IOException {
@@ -65,7 +58,7 @@ public class UniServer {
 
 	/**
 	 * 클라이언트로부터 채팅방의 이름을 넘겨받는 메소드
-	 * 
+	 * 채팅방 이름과 채팅방 포트번호를 저장 
 	 * @throws IOException
 	 */
 	public void rcvRoomName() throws IOException {// 채팅방 이름 받아서 채팅방 정보 저장하는 메소드
@@ -78,8 +71,11 @@ public class UniServer {
 		System.out.println(chat);
 		chatList.put(chat, chatPort);// 채팅방생성후 채팅방 저장
 	}
-
-	public void deleteChatRoom() throws IOException {// 채팅방을 지워주는 메소드
+/**
+ * 채팅방을 지워주는 메소드
+ * @throws IOException
+ */
+	public void deleteChatRoom() throws IOException {
 		setConnection();
 		byte[] delByte = new byte[1024];
 		datain = new DataInputStream(socket.getInputStream());
@@ -90,11 +86,19 @@ public class UniServer {
 		closeConnection();
 	}
 
-	public Integer sendPort(String roomName) {// 사용자가 채팅방에 들어가기 위해서 서버가 포트번호를 주는 것.
+	/**
+	 * 사용자가 채팅방에 들어가기 위해서 서버가 포트번호를 주는 것.
+	 * @param roomName 채팅방 이름.
+	 * @return 등록된 채팅방의 포트번호
+	 */
+	public Integer sendPort(String roomName) {
 		return chatList.get(roomName);
 	}
-
-	void makeChatRoom() throws Exception {// 채팅방 생성해주는데 관여하는 메소드
+/**
+ * 채팅방 생성 메소드
+ * @throws Exception
+ */
+	void makeChatRoom() throws Exception {
 		setConnection();
 		sendNewPort();
 		rcvRoomName();
