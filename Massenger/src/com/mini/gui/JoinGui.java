@@ -133,18 +133,18 @@ public class JoinGui extends JDialog {
 				/**
 				 * 회원가입 부분 아이디 비밀번호 이름 입력후 clientUserDb를 통해 저장
 				 */
-				ClientUserDb userInfo = new ClientUserDb(id, sb1.toString(), name);
+				ClientUserDb userInfo = new ClientUserDb(sb1.toString(), name);
 
 				/**
 				 * clientData 생성자를 통해 유저의 고유 파일을 생성
 				 */
 				try {
-					ClientData data = new ClientData(userInfo);
+					ClientData data = new ClientData(userInfo, id);
 //				[3] clientData 객체 생성
 					/**
 					 * clientUserData에 있는 객체를 서버에서 파일로 저장
 					 */
-					data.clientUserSave(userInfo);
+					data.clientUserSave(userInfo, id);
 				} catch (Exception e1) {
 				}
 
