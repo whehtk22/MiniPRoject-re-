@@ -19,8 +19,7 @@ import java.util.Map;
  *
  */
 public class ClientUserDb implements Serializable{
-	
-	private Map<String, String> User;
+	private String password;
 	private String user_name;
 	
 	
@@ -28,21 +27,20 @@ public class ClientUserDb implements Serializable{
 		super();
 		}
 	
-	public ClientUserDb(String id, String password, String name) {
+	public ClientUserDb( String password, String name) {
 //		[2] id, pw, name 정보 입력
-		Map<String, String> map = new HashMap<String, String>();
-		map.put(id, password);
-		this.setUser(map);
+		this.setPassword(password);
 		this.setUser_name(name);
 		System.out.println(this.getUser_name());
 	}
 	
-	public Map<String, String> getUser() {
-		return User;
+
+	public String getPassword() {
+		return password;
 	}
 
-	public void setUser(Map<String, String> user) {
-		User = user;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getUser_name() {

@@ -5,6 +5,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import com.mini.db.*;
+
 /**
  *	Swing에서 사용하는 Frame : JFrame 
  */
@@ -88,8 +90,26 @@ class Window01 extends JFrame{
 	public void event() {
 
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);//x를 누르면 창 소멸
+			
 		join.addActionListener(e->{
-			JoinGui join = new JoinGui();
+				JoinGui join = new JoinGui();
+			});
+		
+		login.addActionListener(e->{
+		
+			String id = this.idtx.getText();
+			String pw = this.pwtx.getText();
+			String pw2 = pw.toString();
+		
+			DataInfoOpen open = new DataInfoOpen(id);
+		
+			if(open.login(id, pw)) {
+				System.out.println("로그인 성공!");
+				ChatWindow_1 chatWindow = new ChatWindow_1();
+			}
+			else {
+				System.out.println("로그인 실패!");
+			}
 		});
 		
 	}

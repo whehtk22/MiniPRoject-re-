@@ -21,8 +21,9 @@ import com.mini.db.FriendsDb;
 import com.mini.db.ClientUserDb;
 import com.mini.gui.Dial;
 
+import src.com.mini.client.clientUserDb;
+
 public class ClientData {
-	
 	private ClientUserDb user;
 	private File target = new File("Text","Text.db");
 	private File folder;
@@ -33,12 +34,12 @@ public class ClientData {
 	 * joinmain에서 실행
 	 * 실행시 생성한 유저의 고유 이름으로 폴더를 생성
 	 */
-	public ClientData(ClientUserDb user) {
+	public ClientData(ClientUserDb user, String id) {
 		super();
 		this.user = user;
 		this.folder = new File("Image");
 		folder.mkdirs();
-		userDataFolder = new File(user.getUser().keySet()+"files");
+		userDataFolder = new File(id+"files");
 		userDataFolder.mkdirs();
 	}
 	
@@ -54,13 +55,12 @@ public class ClientData {
 	 * 안에 들어있는 파일 내용은 Map 형식으로 작성되어 있음
 	 * @param user
 	 */
-	public void clientUserSave(ClientUserDb userInfo)  throws IOException {
+	public void clientUserSave(ClientUserDb userInfo, String id)  throws IOException {
 		
-		Map<Set<String>, ClientUserDb> map = new HashMap<>();
+		Map<String, ClientUserDb> map = new HashMap<>();
 		
-		Set<String> us = userInfo.getUser().keySet();
+		map.put(id, userInfo);
 		
-		map.put(us, userInfo);
 		
 		File f = new File(userDataFolder, "yourdb.db");
 		f.createNewFile();
