@@ -9,11 +9,16 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 public class UniClient {
-	private static final int port = 50000;
-	private static final String ip = "192.168.0.3";
+	private int port = 50000;
+	private String ip = "192.168.0.3";
 	private Socket socket;
 	private DataInputStream datain;
 	private DataOutputStream dataout;
+	private int chatPort;
+
+	public int getChatPort() {
+		return chatPort;
+	}
 	void setConnection() throws IOException {
 		InetAddress inet = InetAddress.getByName(ip);
 		socket = new Socket(inet,port);
@@ -21,7 +26,7 @@ public class UniClient {
 	void receivePort() throws IOException {
 		datain = new DataInputStream(socket.getInputStream());
 		System.out.println(datain.readInt());
-		
+		this.chatPort =datain.readInt();
 	}
 	void sendRoomName() throws IOException {
 		dataout = new DataOutputStream(socket.getOutputStream());
@@ -33,13 +38,23 @@ public class UniClient {
 	void closeConnection() throws IOException {
 		socket.close();
 	}
-	public static void main(String[] args) throws Exception{
-		UniClient uni = new UniClient();
-		uni.setConnection();
-		uni.receivePort();
-		uni.sendRoomName();
-		uni.closeConnection();
+	public void receiveRoomPort() {
+		try {
+		setConnection();
+		receivePort();
+		sendRoomName();
+		closeConnection();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
+	//	public static void main(String[] args) throws Exception{
+	//		UniClient uni = new UniClient();
+	//		uni.setConnection();
+	//		uni.receivePort();
+	//		uni.sendRoomName();
+	//		uni.closeConnection();
+	//	}
+
 
 }

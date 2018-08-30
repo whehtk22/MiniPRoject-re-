@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.net.Socket;
 
 import javax.imageio.ImageIO;
@@ -19,7 +20,8 @@ import com.mini.gui.Dial;
 import com.mini.gui.Gui3;
 
 public class Data_class2 {
-	private Socket socket = Client_Main.getSocket();
+	private Client_cennection cm = new Client_cennection();
+	private Socket socket = cm.getSocket();
 	private ImageOutputStream stream;
 	
 	public void sendImg() {
@@ -53,5 +55,6 @@ public class Data_class2 {
 			e1.printStackTrace();
 		}
 	}
+
 	
 }
