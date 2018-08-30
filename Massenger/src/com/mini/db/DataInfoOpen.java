@@ -51,11 +51,14 @@ public class DataInfoOpen {
 			System.out.println(bf.toString());
 			System.out.println(pw);
 			System.out.println(user);
-			
-			if(user.keySet().equals(id) && user.values().equals(pw)) {
-				System.out.println("로그인 성공!");
+			for(String k:user.keySet()) {
+				if(k.equals(id)) {
+					System.out.println("아이디가 같다.");
+					if(user.get(k).getPassword().equals(pw)) {
+						System.out.println("로그인 성공!");
+					}
+				}
 			}
-			else System.out.println("로그인 실패!");
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("문제");
