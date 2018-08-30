@@ -2,10 +2,8 @@ package com.mini.gui;
 
 import java.awt.*;
 import com.mini.*;
-import com.mini.client.ClientData;
-import com.mini.db.ClientUserDb;
-
-import com.mini.db.*;
+import com.mini.client.clientData;
+import com.mini.db.clientUserDb;
 
 import java.awt.event.*;
 import java.io.IOException;
@@ -134,24 +132,26 @@ class Window03 extends JFrame{
 			 * 회원가입 부분
 			 * 아이디 비밀번호 이름 입력후 clientUserDb를 통해 저장
 			 */
-				ClientUserDb userInfo = new ClientUserDb(pw, name);
-				
+			clientUserDb userInfo = new clientUserDb(id, pw, name);
+			
+			/**
+			 * clientData 생성자를 통해 유저의 고유 파일을 생성
+			 */
+			try {
+				clientData data = new clientData(userInfo);
+//				[3] clientData 객체 생성
 				/**
-				 * clientData 생성자를 통해 유저의 고유 파일을 생성
+				 * clientUserData에 있는 객체를 서버에서 파일로 저장
 				 */
-				try {
-					ClientData data = new ClientData(userInfo, id);
-//					[3] clientData 객체 생성
-					/**
-					 * clientUserData에 있는 객체를 서버에서 파일로 저장
-					 */
-					data.clientUserSave(userInfo, id);
-				} catch (Exception e1) {}
-				
-				}
-				else {
-					System.out.println("비밀번호가 일치하지 않습니다..");
-				}
+				data.clientUserSave(userInfo);
+			} catch (Exception e1) {}
+			
+			}
+			else {
+				System.out.println("비밀번호가 일치하지 않습니다.");
+			}
+			
+			
 			
 		});
 
@@ -165,7 +165,7 @@ class Window03 extends JFrame{
 	
 }
 
-public class JoinMain {
+public class joinmain {
 
 	public static void main(String[] args) {
 
