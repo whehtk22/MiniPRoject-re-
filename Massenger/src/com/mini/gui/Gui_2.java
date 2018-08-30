@@ -60,7 +60,7 @@ class Gui_2 extends JFrame{
 		
 		file.addActionListener(e->{
 			s = new send();
-			Data_class dc = new Data_class(s.getSocket());
+			Data_Class dc = new Data_Class(s.getSocket());
 			int imgFile = dc.chooseFile().showOpenDialog(con);
 			if(imgFile==0) {
 				File f = dc.chooseFile().getSelectedFile();
@@ -72,7 +72,7 @@ class Gui_2 extends JFrame{
 		
 		summit.addActionListener(e->{
 			s = new send();
-			Data_class dc = new Data_class(s.getSocket());
+			Data_Class dc = new Data_Class(s.getSocket());
 			dc.sendMessage(text.getText());
 		});
 		

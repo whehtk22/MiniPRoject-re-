@@ -52,14 +52,14 @@ public class Gui3 extends JFrame{
 		 * 파일 보내기 현재는 이미지만 가능하다.
 		 */
 		file.addActionListener(e->{
-			Data_class2 dc = new Data_class2();
+			Data_Class2 dc = new Data_Class2();
 			dc.sendImg();
 		});
 		/*
 		 * 문자열 전송
 		 */
 		summit.addActionListener(e->{
-			Data_class2 dc = new Data_class2();
+			Data_Class2 dc = new Data_Class2();
 			dc.sendStr(text.getText());
 		});
 		

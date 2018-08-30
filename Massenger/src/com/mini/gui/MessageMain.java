@@ -88,7 +88,9 @@ class Window01 extends JFrame{
 	public void event() {
 
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);//x를 누르면 창 소멸
-
+		join.addActionListener(e->{
+			JoinGui join = new JoinGui();
+		});
 		
 	}
 	/**
