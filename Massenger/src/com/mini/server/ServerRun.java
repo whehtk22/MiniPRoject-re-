@@ -7,7 +7,6 @@ public class ServerRun {
 		try {
 			server.makeChatRoom();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		MultiServer multi = new MultiServer(server.getChatPort());
@@ -17,7 +16,6 @@ public class ServerRun {
 				try {
 					multi.receive();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
