@@ -5,8 +5,7 @@ import com.mini.*;
 import com.mini.client.ClientData;
 import com.mini.db.ClientUserDb;
 
-import src.com.mini.gui.clientData;
-import src.com.mini.gui.clientUserDb;
+import com.mini.db.*;
 
 import java.awt.event.*;
 import java.io.IOException;

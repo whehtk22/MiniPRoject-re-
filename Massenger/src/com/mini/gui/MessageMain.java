@@ -100,9 +100,7 @@ class Window01 extends JFrame{
 			String id = this.idtx.getText();
 			char[] p = pwtx.getPassword();
 			StringBuffer bf = new StringBuffer();
-			bf.append(pw);
-			String pw2 = pw.toString();
-		
+			bf.append(p);
 			DataInfoOpen open = new DataInfoOpen(id);
 			System.out.println(bf.toString());
 			open.login(id, bf.toString());
