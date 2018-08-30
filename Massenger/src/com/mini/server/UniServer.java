@@ -36,16 +36,13 @@ public class UniServer {
 		System.out.println("사용자 접속 완료");
 	}
 
-	
 	public Integer getChatPort() {
 		return chatPort;
 	}
 
-
 	public void setChatPort(Integer chatPort) {
 		this.chatPort = chatPort;
 	}
-
 
 	/**
 	 * 채팅방의 포트번호를 전송하는 메소드
@@ -56,7 +53,7 @@ public class UniServer {
 		while (true) {
 
 			chatPort = ((int) (Math.random() * 30000) + 20000);
-			if (chatList.containsValue(chatPort))	//이미 생성된 채팅방 포트와 동일한지를 검사하는 코드
+			if (chatList.containsValue(chatPort)) // 이미 생성된 채팅방 포트와 동일한지를 검사하는 코드
 				continue;
 			else
 				break;
@@ -71,7 +68,7 @@ public class UniServer {
 	 * 
 	 * @throws IOException
 	 */
-	public void rcvRoomName() throws IOException {//채팅방 이름 받아서 채팅방 정보 저장하는 메소드
+	public void rcvRoomName() throws IOException {// 채팅방 이름 받아서 채팅방 정보 저장하는 메소드
 		byte[] name = new byte[1024];
 		System.out.println("바이트 생성");
 		datain = new DataInputStream(socket.getInputStream());
@@ -82,25 +79,28 @@ public class UniServer {
 		chatList.put(chat, chatPort);// 채팅방생성후 채팅방 저장
 	}
 
-	public void deleteChatRoom()throws IOException {//채팅방을 지워주는 메소드
+	public void deleteChatRoom() throws IOException {// 채팅방을 지워주는 메소드
 		setConnection();
 		byte[] delByte = new byte[1024];
 		datain = new DataInputStream(socket.getInputStream());
 		delByte = datain.readAllBytes();
-		String delName = new String(delByte,0,delByte.length);
+		String delName = new String(delByte, 0, delByte.length);
 		chatList.remove(chatList.get(delName));
 		System.out.println("채팅방 삭제 완료");
 		closeConnection();
 	}
-	public Integer sendPort(String roomName) {//사용자가 채팅방에 들어가기 위해서 서버가 포트번호를 주는 것.
+
+	public Integer sendPort(String roomName) {// 사용자가 채팅방에 들어가기 위해서 서버가 포트번호를 주는 것.
 		return chatList.get(roomName);
 	}
-	void makeChatRoom() throws Exception{//채팅방 생성해주는데 관여하는 메소드
+
+	void makeChatRoom() throws Exception {// 채팅방 생성해주는데 관여하는 메소드
 		setConnection();
 		sendNewPort();
 		rcvRoomName();
-		//closeConnection();
+		// closeConnection();
 	}
+
 	/**
 	 * 연결종료
 	 * 
@@ -112,39 +112,9 @@ public class UniServer {
 		socket.close();
 		server.close();
 	}
+
 	void deleteAll() {
 		chatList.clear();
-	}
-
-	public static void main(String[] args) throws IOException {
-		UniServer server = new UniServer();
-		try {
-			server.makeChatRoom();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		MultiServer multi = new MultiServer(server.getChatPort());
-		Thread t = new Thread() {
-			@Override
-			public void run() {
-				try {
-					multi.receive();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		};
-		
-		t.start();
-		Thread r = new Thread() {
-			@Override
-			public void run() {
-				multi.broadcast(multi.getText());
-				}
-		};
-		r.start();
 	}
 
 }
