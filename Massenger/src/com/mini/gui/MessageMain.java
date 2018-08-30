@@ -98,18 +98,14 @@ class Window01 extends JFrame{
 		login.addActionListener(e->{
 		
 			String id = this.idtx.getText();
-			String pw = this.pwtx.getText();
+			char[] p = pwtx.getPassword();
+			StringBuffer bf = new StringBuffer();
+			bf.append(pw);
 			String pw2 = pw.toString();
 		
 			DataInfoOpen open = new DataInfoOpen(id);
-		
-			if(open.login(id, pw)) {
-				System.out.println("로그인 성공!");
-				ChatWindow_1 chatWindow = new ChatWindow_1();
-			}
-			else {
-				System.out.println("로그인 실패!");
-			}
+			System.out.println(bf.toString());
+			open.login(id, bf.toString());
 		});
 		
 	}

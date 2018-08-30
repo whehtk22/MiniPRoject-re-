@@ -31,25 +31,34 @@ public class DataInfoOpen {
 	}
 	
 	
-	public boolean searchId(String id) {
+	public void searchId(String id) {
 		
 		if(user.keySet().equals(id)) {
-			return true;
+			System.out.println(id+"는 사용가능한 ID입니다.");
 		}
 		else {
-			return false;
+			System.out.println(id+"는 이미 존재하는 ID입니다.");
 		}
 	}
 	
-	public boolean login(String id, String pw) {
+	public void login(String id, String pw) {
+		
 		try {
+			StringBuffer bf = new StringBuffer();
+			
+			bf.append(user.keySet());
+			System.out.println(user.keySet().equals(pw));
+			System.out.println(bf.toString());
+			System.out.println(pw);
+			System.out.println(user);
+			
 			if(user.keySet().equals(id) && user.values().equals(pw)) {
-				return true;
+				System.out.println("로그인 성공!");
 			}
-			else return false;
+			else System.out.println("로그인 실패!");
 		}catch(Exception e) {
 			e.printStackTrace();
-			return false;
+			System.out.println("문제");
 		}
 	}
 	
