@@ -3,42 +3,46 @@ package com.mini.client;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+
+import javax.swing.JTextArea;
+
 import com.mini.client.*;
 
-public class ChatReceiver extends Thread{
+public class ChatReceiver_re extends Thread{
 	private Client_cennection cm;
 	private String receiveMessage="";
+	private byte[] buffer = new byte[1024];
+	private JTextArea chat;
+	private DatagramPacket packet = new DatagramPacket(buffer,buffer.length);
+
+	public ChatReceiver_re(Client_cennection cm,JTextArea chat) {
+		this.cm=cm;
+		this.chat=chat;
+	}
+
 	public String getReceiveMessage() {
 		return receiveMessage;
 	}
-	public ChatReceiver(Client_cennection cm) {
-		this.cm=cm;
-	}
+
 	@Override
 	public void run() {
-		try {
-
-			byte[] buffer = new byte[1024];
-			DatagramPacket packet = new DatagramPacket(buffer,buffer.length);
-			
-			while(true) {
+		while(true) {
+			try {
 				cm.getJg().multicast.receive(packet);
-				//					if(packet.getData()!=null) {
 				String testCode = new String(packet.getData(),0,packet.getLength());
-
-				//애초에 들어온 값이 없다면 그냥 ""를 보낸다. 그리고 받는 쪽에서 ""이면 textarea에 추가를 하지않는다.
+				
 				if(!testCode.equals("")&&testCode!=null) {
 					receiveMessage = testCode;
 					System.out.println("스레드에서 받은값:"+receiveMessage);
 				}
+				//textArea를 전달해주고 여기서 그걸 때려박는다.
+				chat.append(receiveMessage+"\n");
 
+			}catch(Exception e) {
+				e.printStackTrace();
 			}
-		}catch(Exception e) {
-			e.printStackTrace();
 		}
 	}
-	//	public String showMessage(String str) {
-	//		
-	//	}
-
+	
+	//	public void 
 }

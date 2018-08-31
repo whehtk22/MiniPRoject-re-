@@ -12,9 +12,10 @@ import com.mini.client.*;
 /**
  *	Swing에서 사용하는 Frame : JFrame 
  */
-public class chatwindow extends JFrame{
+public class chatwindow extends JFrame {
 	private Client_cennection cm;
-	private ChatReceiver mr;
+	private ChatReceiver_re mr;
+	private String firstStr="초기값";
 
 	//컴포넌트를 배치할 영역을 JPanel로 구현
 	private JPanel con = new JPanel();
@@ -44,13 +45,19 @@ public class chatwindow extends JFrame{
 
 
 	private JTextArea tx = new JTextArea();
-	private JTextArea chat = new JTextArea();
+	private JTextArea chat = new JTextArea("");
 	private JLabel lb2 = new JLabel("내 이미지 상태 표시 영역");
 	private JLabel lb3 = new JLabel("대화중인 상대방 표시영역 ");
 
 	private Border b1 = BorderFactory.createLineBorder(Color.WHITE, 2, true);
 
 
+	public JTextArea getChat() {
+		return chat;
+	}
+	public void setChat(JTextArea chat) {
+		this.chat = chat;
+	}
 	/**
 	 * 화면 구현 메소드
 	 */
@@ -151,7 +158,7 @@ public class chatwindow extends JFrame{
 		btsend.addActionListener(e->{
 			String str = tx.getText();
 			ChatSend cs = new ChatSend(cm);
-//			if(!str.equals("")&&str!=null)
+			//			if(!str.equals("")&&str!=null)
 			cs.sendMessage(str);
 		});
 
@@ -163,16 +170,34 @@ public class chatwindow extends JFrame{
 
 	}
 	//스레드 설정 및 문자받고 설정
+	public void readyReceive() {
+		mr = new ChatReceiver_re(cm,chat);
+	}
 	public void startReceive() {
-		mr = new ChatReceiver(cm);
 		mr.setDaemon(true);
 		mr.start();
-		System.out.println(mr.getMmm());
-//		애초에 들어온 값이 없다면 그냥 ""를 보낸다. 그리고 받는 쪽에서 ""이면 textarea에 추가를 하지않는다.
-		if(!mr.getMmm().equals("")&&mr.getMmm()!=null) {
-			chat.append("[보낸사람정보출력]:"+mr.getMmm()+"\n");
-		}
+//		Thread t = new Thread(r);
+//		t.setDaemon(true);
+//		t.start();
+		//자 스레드가 실행이되면 받기 시작하지 그 받은 값을 계속해서 추가를 해줘야헤 그런데  while문 쓰니까
+		//아예 프레임이 안떠 그럼 다른 스레드를 생성해서 이것도 여기에 할당하고 계속받게하자	
 	}
+	Runnable r =()->{
+//		while(true) {
+//			String str =mr.getReceiveMessage();
+//			System.out.println(str+"이것은");
+//			if(!str.equals("")&&str!=null) {
+//				chat.append(str+"\n");
+//			}
+//			try {
+//				Thread.sleep(1000L);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			System.out.println(mr.getReceiveMessage());
+//		}
+	};
 
 	public chatwindow(Client_cennection cm) {
 		this.cm=cm;
@@ -187,6 +212,7 @@ public class chatwindow extends JFrame{
 		this.setSize(500, 600);
 		this.setResizable(false);
 		this.setVisible(true);
+		this.readyReceive();
 		this.startReceive();
 	}
 }
