@@ -12,37 +12,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 유저의 아이디 비밀번호 이름을 임시로 저장해주는 메소드
- * 클라이언트만 사용
- * @author user
- *
- */
-public class clientUserDb implements Serializable{
-	
-	private Map<String, String> User;
+
+public class ClientUserDb implements Serializable{
+	private String password;
 	private String user_name;
 	
 	
-	public clientUserDb() {
+	public ClientUserDb() {
 		super();
 		}
 	
-	public clientUserDb(String id, String password, String name) {
-//		[2] id, pw, name 정보 입력
-		Map<String, String> map = new HashMap<String, String>();
-		map.put(id, password);
-		this.setUser(map);
+	public ClientUserDb( String password, String name) {
+
+		this.setPassword(password);
 		this.setUser_name(name);
 		System.out.println(this.getUser_name());
 	}
 	
-	public Map<String, String> getUser() {
-		return User;
+
+	public String getPassword() {
+		return password;
 	}
 
-	public void setUser(Map<String, String> user) {
-		User = user;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getUser_name() {
