@@ -1,4 +1,4 @@
-package com.mini.client;
+package com.mini.db;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
@@ -16,65 +16,31 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import com.mini.db.FriendsDb;
-import com.mini.db.clientUserDb;
 import com.mini.gui.Dial;
 
-public class clientData {
-	
-	private clientUserDb user;
-	private File target = new File("Text","Text.db");
+/**
+ * 클라이언트의 채팅 내역과 이미지 파일을 저장하는 클래스
+ * @author user
+ *
+ */
+public class Client_ChatData {
+	private ClientUserDb user;
+	private File target;
 	private File folder;
-	private File userDataFolder;
-	
 	
 	/*
-	 * joinmain에서 실행
-	 * 실행시 생성한 유저의 고유 이름으로 폴더를 생성
+	 * 
+	 * 실행시 생성한 유저의 고유 이름으로 채팅 내역과 이미지 폴더를 생성
 	 */
-	public clientData(clientUserDb user) {
+	public Client_ChatData(ClientUserDb user, String id) {
 		super();
 		this.user = user;
-		this.folder = new File("Image");
+		this.target = new File(id+"chatlog");
+		target.mkdirs();
+		this.folder = new File(id+"Image");
 		folder.mkdirs();
-		userDataFolder = new File(user.getUser().keySet()+"files");
-		userDataFolder.mkdirs();
 	}
-	
-	public void friendsSave(String friend) {
-		
-		FriendsDb fr = new FriendsDb(friend);
-		
-	}
-	
-	/**
-	 * com.mini.db
-	 * clientUserDb의 정보를 서버쪽에서 파일로 저장하는 메소드
-	 * 안에 들어있는 파일 내용은 Map 형식으로 작성되어 있음
-	 * @param user
-	 */
-	public void clientUserSave(clientUserDb userInfo)  throws IOException {
-		
-		Map<Set<String>, clientUserDb> map = new HashMap<>();
-		
-		Set<String> us = userInfo.getUser().keySet();
-		
-		map.put(us, userInfo);
-		
-		File f = new File(userDataFolder, "yourdb.db");
-		f.createNewFile();
-		
-		ObjectOutputStream out = new ObjectOutputStream(
-				new BufferedOutputStream(new FileOutputStream(f)));
-				
-			
-		out.writeObject(map);
-		
-		out.flush();
-//		out.close();
-	}
-	
+
 	
 	/**
 	 * 사용자의 대화내용을 저장하는 메소드
@@ -90,7 +56,7 @@ public class clientData {
 			PrintWriter SaveText = new PrintWriter(bw);
 			SaveText.write(line);
 		} catch (IOException e) {
-			
+			System.err.println("채팅내역이 저장되지 않았습니다.");
 		}
 	}
 	
@@ -101,8 +67,6 @@ public class clientData {
 	 * @param bf 받은 이미지를 BufferedImage로 변환
 	 */
 	public void saveImage(BufferedImage bf) {
-			
-			
 			
 			JFileChooser chooser = new JFileChooser(folder);
 			
@@ -121,6 +85,7 @@ public class clientData {
 				ImageIO.write(bf, extension, target);
 			} catch (IOException e1) {
 				e1.printStackTrace();
+				System.err.println("이미지 저장 실패");
 			}	
 		}
 	}
