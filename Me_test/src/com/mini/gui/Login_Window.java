@@ -126,8 +126,10 @@ public class Login_Window extends JFrame {
 				if(ox) {
 
 					try {
-						Connection con = new Connection(id);
-						Chatting_Frame g = new Chatting_Frame(con);
+						serverCon.setId(id);
+						serverCon.getOut().writeInt(Selection.CHAT);
+						serverCon.getOut().flush();
+						Chatting_Frame g = new Chatting_Frame(serverCon);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

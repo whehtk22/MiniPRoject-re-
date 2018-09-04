@@ -286,6 +286,7 @@ public class Chatting_Frame extends JFrame {
 			String str=client_Net.receive();
 			if(str!=null) {
 				chat.append(str+"\n");
+				chat.setCaretPosition(chat.getDocument().getLength());
 			}
 		}
 	};

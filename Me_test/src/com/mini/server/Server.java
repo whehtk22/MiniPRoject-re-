@@ -28,6 +28,7 @@ public class Server {
 			client.start();
 			list.add(client);
 			System.out.println(list.toString());
+			System.out.println("하나의 클라이언트가 들어옴");
 			
 		}
 	}
