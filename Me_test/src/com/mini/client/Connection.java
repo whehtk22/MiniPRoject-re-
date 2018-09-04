@@ -20,6 +20,14 @@ public class Connection {
 	private ObjectInputStream in;
 	public static String id;
 
+	public static String getId() {
+		return id;
+	}
+
+	public static void setId(String id) {
+		Connection.id = id;
+	}
+
 	public Socket getSocket() {
 		return socket;
 	}

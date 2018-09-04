@@ -27,6 +27,7 @@ public class Client extends Thread{
 	public void run(){
 		while(true) {
 			try {
+				
 				switch(in.readInt()) {
 				case 1:
 					
@@ -46,11 +47,16 @@ public class Client extends Thread{
 						 out.flush();
 					}
 					break;
-//					while(true) {
-//						String str=in.readUTF();
-//						System.out.println(str);
-//						server.broadcast(str);
-//					}
+				case 3:
+					System.out.println("케이스3");
+					while(true) {
+//						System.out.println("3의 while 문");
+//						System.out.println("읽음"+in.readUTF());
+						String str=in.readUTF();
+						System.out.println("받은 문자열"+str);						
+						server.broadcast(str);
+					}
+
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -60,7 +66,7 @@ public class Client extends Thread{
 				e.printStackTrace();
 			}
 				
-				
+				System.out.println("밖입니다.");
 			
 			
 			}
