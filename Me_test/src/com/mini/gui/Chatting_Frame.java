@@ -264,14 +264,14 @@ public class Chatting_Frame extends JFrame {
 	//스레드 설정 및 문자받고 설정
 
 
-	public Chatting_Frame(Connection client_Net) {
+	public Chatting_Frame(Connection client_Net,String roomName) {
 		this.client_Net=client_Net;
 		this.display();
 		this.event();
 		this.menu();
 		//스레드시작(문자받기)
 
-		this.setTitle("Chatting Program");
+		this.setTitle(roomName);
 		this.setLocationByPlatform(true);
 		this.setSize(500, 600);
 		this.setResizable(false);

@@ -18,6 +18,8 @@ public class Lobby extends JFrame{
 	private JLabel jl = new JLabel("메신저 테스트");
 	private JButton jt1 = new  JButton("채팅창 생성");
 	private JButton jt2 = new JButton("채팅방 찾기");
+	private JButton btnNewButton = new JButton("채팅프로그램 나가기");
+	private JLabel lblNewLabel = new JLabel("채팅방 목록");
 	/**
 	 * 화면 구현 메소드
 	 */
@@ -32,12 +34,18 @@ public class Lobby extends JFrame{
 		jl.setFont(new Font("굴림",Font.BOLD,20));
 
 
-		jt1.setBounds(12, 123, 110, 72);
+		jt1.setBounds(12, 76, 110, 72);
 		con.add(jt1);
 
 
-		jt2.setBounds(162, 123, 110, 72);
+		jt2.setBounds(162, 76, 110, 72);
 		con.add(jt2);
+		
+		btnNewButton.setBounds(162, 186, 97, 23);
+		con.add(btnNewButton);
+		
+		lblNewLabel.setBounds(12, 190, 57, 15);
+		con.add(lblNewLabel);
 	}
 	public void event() {
 		jt1.addActionListener(e->{
@@ -51,7 +59,7 @@ public class Lobby extends JFrame{
 				serverCon.getOut().flush();
 				serverCon.getOut().writeUTF(RoomName);
 				serverCon.getOut().flush();
-				Chatting_Frame g = new Chatting_Frame(serverCon);
+				Chatting_Frame g = new Chatting_Frame(serverCon,RoomName);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -66,20 +74,26 @@ public class Lobby extends JFrame{
 					serverCon.getOut().flush();
 					String RoomName =JOptionPane.showInputDialog(con, "채팅방이름을 입력하세요", "검색", JOptionPane.OK_CANCEL_OPTION);
 					System.out.println(RoomName);
-					if(RoomName==null) {
-						dispose();
-						Lobby lobby = new Lobby(serverCon);
-					}
-					else {
+					if(RoomName==null||RoomName.equals("")) {
+						String str = "123123";
+						serverCon.getOut().writeUTF(str);
+						serverCon.getOut().flush();
+					}else {
 						serverCon.getOut().writeUTF(RoomName);
 						serverCon.getOut().flush();
+					}
+					if(RoomName==null) {
+						display();
+						break;
+					}
+					else {
 						String str=serverCon.receive();
 						System.out.println(str);
 						serverCon.getOut().writeInt(Selection.ROOM_CHAT);
 						serverCon.getOut().flush();
 						serverCon.getOut().writeUTF(RoomName);
 						serverCon.getOut().flush();
-						Chatting_Frame g = new Chatting_Frame(serverCon);
+						Chatting_Frame g = new Chatting_Frame(serverCon,RoomName);
 						break;
 					}
 				}

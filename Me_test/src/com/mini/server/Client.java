@@ -25,62 +25,71 @@ public class Client extends Thread{
 	}
 
 	public void run(){
+		int num = 0;
 		while(true) {
 			try {
-				
-				switch(in.readInt()) {
+				int read =in.readInt();
+				System.out.println(read+"의 num:"+num);
+				switch(read) {
 				case 1:
+					num++;
+					System.out.println("케이스 "+read+"의"+num);
 					while(true){
-					ClientUserDb user = (ClientUserDb)in.readObject();
-//					if(user == null) {
-//						break;
-//					}
-					DataInfoOpen searchId = new DataInfoOpen();
-					System.out.println("user = "+user);
-					System.out.println(searchId);
-					
-					
-					
-					boolean bool = searchId.searchId(user.getId());
-					System.out.println("search = "+bool);
-					out.writeBoolean(bool);
-					out.flush();
-					System.out.println(bool);
-					if(bool == false) {
-						Client_Private userSave = new Client_Private();
-						userSave.clientUserSave(user, user.getId());
-						System.out.println("저장됨");
-						break;
+						ClientUserDb user = (ClientUserDb)in.readObject();
+						//					if(user == null) {
+						//						break;
+						//					}
+						DataInfoOpen searchId = new DataInfoOpen();
+						System.out.println("user = "+user);
+						System.out.println(searchId);
+						boolean bool = searchId.searchId(user.getId());
+						System.out.println("search = "+bool);
+						out.writeBoolean(bool);
+						out.flush();
+						System.out.println(bool);
+						if(bool == false) {
+							Client_Private userSave = new Client_Private();
+							userSave.clientUserSave(user, user.getId());
+							System.out.println("저장됨");
+							break;
 						}
 					}
-						break;			
+					break;			
 				case 2:
+					num++;
+					System.out.println("케이스 "+read+"의"+num);
 					System.out.println("일단 케이스 2");
 					Map<String,String> idCheck =(HashMap<String, String>) in.readObject();
-//					System.out.println(idCheck);
+					//					System.out.println(idCheck);
 					DataInfoOpen open = new DataInfoOpen();
-					
+
 					for(Map.Entry<String, String> asd : idCheck.entrySet()) {
-						 out.writeBoolean(open.login(asd.getKey(), asd.getValue()));
-						 out.flush();
+						out.writeBoolean(open.login(asd.getKey(), asd.getValue()));
+						out.flush();
 					}
 					break;
 				case 3:
+					num++;
+					System.out.println("케이스 "+read+"의"+num);
 					System.out.println("케이스3");
 					while(true) {
-//						System.out.println("3의 while 문");
-//						System.out.println("읽음"+in.readUTF());
+						//						System.out.println("3의 while 문");
+						//						System.out.println("읽음"+in.readUTF());
 						String str=in.readUTF();
 						System.out.println("받은 문자열"+str);						
 						server.broadcast(str);
 					}
 				case 4:
+					num++;
+					System.out.println("케이스 "+read+"의"+num);
 					System.out.println("케이스 4");
 					String str=in.readUTF();
 					System.out.println(str);
 					server.addChatRoom(str,this);
 					break;
 				case 5:
+					num++;
+					System.out.println("케이스 "+read+"의"+num);
 					System.out.println("케이스5");
 					String RoomName=in.readUTF();
 					System.out.println(RoomName+":확인용");
@@ -90,17 +99,19 @@ public class Client extends Thread{
 						server.RoomChat(RoomName,str2);
 					}
 				case 6:
-					System.out.println("채팅방 찾기");
+					num++;
+					System.out.println("케이스 "+read+"의"+num);
+					System.out.println("케이스 6");
+
 					String str3=in.readUTF();
-					if(str3==null||str3.equals("")) {
+
+					System.out.println(str3);
+					if(str3.equals("123123")) {
 						break;
 					}
-					System.out.println(str3);
 					server.SearchRoom(str3,this);
-				default :
-					System.out.println("대기상태");
 				}
-				
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -108,12 +119,12 @@ public class Client extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-				
-				System.out.println("밖입니다.");
-			
-			
-			}
+
+			System.out.println("밖입니다.");
+
+
 		}
+	}
 	public void send(String text) throws IOException {
 		out.writeUTF(text);
 		out.flush();

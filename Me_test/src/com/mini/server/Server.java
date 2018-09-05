@@ -68,18 +68,21 @@ public class Server {
 		}
 	}
 	public void SearchRoom(String RoomName,Client this_) {
+		String returM="";
 		List<Client> list = new ArrayList<>();
 		for(Map.Entry<String, List<Client>>asd:chatList.entrySet()) {
 			if(asd.getKey().equals(RoomName)) {
 				list= asd.getValue();
 				list.add(this_);
 				chatList.put(RoomName, list);
+				returM = RoomName+"방이 존재합니다";
 				System.out.println(list);
 				break;
+			}else {
+				returM ="찾는방이없음";
 			}
 		}
 		System.out.println(chatList+"확인용"+list);
-		String returM = RoomName+"방이 존재합니다";
 		try {
 			this_.send(returM);
 		} catch (IOException e) {
