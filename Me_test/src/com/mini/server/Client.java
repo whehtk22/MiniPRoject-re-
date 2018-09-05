@@ -90,11 +90,17 @@ public class Client extends Thread{
 						server.RoomChat(RoomName,str2);
 					}
 				case 6:
-					System.out.println("케이스 6");
+					System.out.println("채팅방 찾기");
 					String str3=in.readUTF();
+					if(str3==null||str3.equals("")) {
+						break;
+					}
 					System.out.println(str3);
 					server.SearchRoom(str3,this);
+				default :
+					System.out.println("대기상태");
 				}
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

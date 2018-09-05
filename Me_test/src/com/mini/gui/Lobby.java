@@ -56,28 +56,40 @@ public class Lobby extends JFrame{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		
+
 		});
 		jt2.addActionListener(e->{
+			boolean ox=true;
 			try {
-			serverCon.getOut().writeInt(Selection.SEARCH_ROOM);
-			serverCon.getOut().flush();
-			String RoomName =JOptionPane.showInputDialog("채팅방이름을 입력하세세요");
-			serverCon.getOut().writeUTF(RoomName);
-			serverCon.getOut().flush();
-			String str=serverCon.receive();
-			System.out.println(str);
-			serverCon.getOut().writeInt(Selection.ROOM_CHAT);
-			serverCon.getOut().flush();
-			serverCon.getOut().writeUTF(RoomName);
-			serverCon.getOut().flush();
-			Chatting_Frame g = new Chatting_Frame(serverCon);
+				while(ox) {
+					serverCon.getOut().writeInt(Selection.SEARCH_ROOM);
+					serverCon.getOut().flush();
+					String RoomName =JOptionPane.showInputDialog(con, "채팅방이름을 입력하세요", "검색", JOptionPane.OK_CANCEL_OPTION);
+					System.out.println(RoomName);
+					if(RoomName==null) {
+						dispose();
+						Lobby lobby = new Lobby(serverCon);
+					}
+					else {
+						serverCon.getOut().writeUTF(RoomName);
+						serverCon.getOut().flush();
+						String str=serverCon.receive();
+						System.out.println(str);
+						serverCon.getOut().writeInt(Selection.ROOM_CHAT);
+						serverCon.getOut().flush();
+						serverCon.getOut().writeUTF(RoomName);
+						serverCon.getOut().flush();
+						Chatting_Frame g = new Chatting_Frame(serverCon);
+						break;
+					}
+				}
 			}catch(Exception e1) {
 				e1.printStackTrace();
 			}
-			});
+		});
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
-	
+
 	public Lobby (Connection serverCon) {
 		this.serverCon =serverCon;
 		this.display();
@@ -86,6 +98,5 @@ public class Lobby extends JFrame{
 		this.setSize(300, 300);
 		this.setResizable(false);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 }

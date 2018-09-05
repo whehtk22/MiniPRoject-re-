@@ -16,6 +16,7 @@ import javax.swing.*;
  */
 public class Member_Join extends JDialog {
 	
+	
 	private Connection serverCon;
 
 //컴포넌트를 배치할 영역을 JPanel로 구현
