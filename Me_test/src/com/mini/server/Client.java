@@ -30,12 +30,30 @@ public class Client extends Thread{
 				
 				switch(in.readInt()) {
 				case 1:
-					
+					boolean bool = true;
+					while(true){
 					ClientUserDb user = (ClientUserDb)in.readObject();
-					Client_Private userSave = new Client_Private();
-					userSave.clientUserSave(user, user.getId());
-					break;
+					DataInfoOpen searchId = new DataInfoOpen();
+					System.out.println("user = "+user);
+					System.out.println(searchId);
 					
+					
+					
+					bool = searchId.searchId(user.getId());
+					System.out.println("search = "+bool);
+					out.writeBoolean(bool);
+					out.flush();
+					System.out.println(bool);
+					if(bool == false) {
+						Client_Private userSave = new Client_Private();
+						userSave.clientUserSave(user, user.getId());
+						System.out.println("저장됨");
+						break;
+						}
+					}
+					if(bool == true) {
+						break;						
+					}
 				case 2:
 					System.out.println("일단 케이스 2");
 					Map<String,String> idCheck =(HashMap<String, String>) in.readObject();
