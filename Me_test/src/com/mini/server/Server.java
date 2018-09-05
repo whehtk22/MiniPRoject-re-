@@ -23,6 +23,7 @@ public class Server {
 
 	public Server() throws IOException {
 		this.server = new ServerSocket(port);
+		chatList.put("start", new ArrayList<>());
 	}
 
 	public void work() throws IOException, ClassNotFoundException, InterruptedException {
@@ -47,11 +48,34 @@ public class Server {
 	/*
 	 * 추가 메소드
 	 */
-	public void addChatRoom(String name,Client this_) {
+	public boolean addChatRoom(String name,Client this_) {
+		boolean makeOk =false;
 		List<Client> firstList = new ArrayList<>();
-		firstList.add(this_);
-		chatList.put(name, firstList);
+		for(Map.Entry<String, List<Client>>asd:chatList.entrySet()) {
+			if(!asd.getKey().equals(name))
+				makeOk=true;
+			else {
+				makeOk=false;
+				break;
+			}
+		}
+		System.out.println(makeOk);
+		if(makeOk) {
+			firstList.add(this_);
+			chatList.put(name, firstList);
+		}
 		System.out.println(chatList);
+		try {
+			if(makeOk==false) {
+				this_.send("중복이되어 안만들어짐");
+			}else {
+				this_.send("됨");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return makeOk;
 	}
 	public void RoomChat(String RoomName,String str) {
 		List<Client> list = new ArrayList<>();
@@ -82,6 +106,7 @@ public class Server {
 				returM ="찾는방이없음";
 			}
 		}
+		System.out.println(returM);
 		System.out.println(chatList+"확인용"+list);
 		try {
 			this_.send(returM);

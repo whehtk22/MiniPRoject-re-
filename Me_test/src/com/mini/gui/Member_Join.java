@@ -141,7 +141,7 @@ public class Member_Join extends JDialog {
 						serverCon.getOut().writeObject(userInfo);
 						serverCon.getOut().flush();
 						boolean ox = serverCon.getIn().readBoolean();
-						System.out.println("여기 : "+ox);	
+//						System.out.println("여기 : "+ox);	
 						if(ox) {
 							JOptionPane.showMessageDialog(con, "이미 존재하는 아이디 입니다.");
 						}

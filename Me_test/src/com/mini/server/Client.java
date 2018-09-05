@@ -1,7 +1,8 @@
 package com.mini.server;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java
+.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
@@ -29,11 +30,11 @@ public class Client extends Thread{
 		while(true) {
 			try {
 				int read =in.readInt();
-				System.out.println(read+"의 num:"+num);
+//				System.out.println(read+"의 num:"+num);
 				switch(read) {
 				case 1:
-					num++;
-					System.out.println("케이스 "+read+"의"+num);
+//					num++;
+//					System.out.println("케이스 "+read+"의"+num);
 					while(true){
 						ClientUserDb user = (ClientUserDb)in.readObject();
 						//					if(user == null) {
@@ -56,8 +57,8 @@ public class Client extends Thread{
 					}
 					break;			
 				case 2:
-					num++;
-					System.out.println("케이스 "+read+"의"+num);
+//					num++;
+//					System.out.println("케이스 "+read+"의"+num);
 					System.out.println("일단 케이스 2");
 					Map<String,String> idCheck =(HashMap<String, String>) in.readObject();
 					//					System.out.println(idCheck);
@@ -69,8 +70,8 @@ public class Client extends Thread{
 					}
 					break;
 				case 3:
-					num++;
-					System.out.println("케이스 "+read+"의"+num);
+//					num++;
+//					System.out.println("케이스 "+read+"의"+num);
 					System.out.println("케이스3");
 					while(true) {
 						//						System.out.println("3의 while 문");
@@ -80,27 +81,36 @@ public class Client extends Thread{
 						server.broadcast(str);
 					}
 				case 4:
-					num++;
-					System.out.println("케이스 "+read+"의"+num);
+//					num++;
+//					System.out.println("케이스 "+read+"의"+num);
 					System.out.println("케이스 4");
 					String str=in.readUTF();
+					if(str.equals("123123")) {
+						break;
+					}
 					System.out.println(str);
 					server.addChatRoom(str,this);
+					
 					break;
 				case 5:
-					num++;
-					System.out.println("케이스 "+read+"의"+num);
+//					num++;
+//					System.out.println("케이스 "+read+"의"+num);
 					System.out.println("케이스5");
 					String RoomName=in.readUTF();
 					System.out.println(RoomName+":확인용");
 					while(true) {
 						String str2=in.readUTF();
+						System.out.println("야이 18:"+str2);
+						if(str2.equals("종료종료")) {
+							break;
+						}
 						System.out.println("받은 문자열"+str2);
 						server.RoomChat(RoomName,str2);
 					}
+					break;
 				case 6:
-					num++;
-					System.out.println("케이스 "+read+"의"+num);
+//					num++;
+//					System.out.println("케이스 "+read+"의"+num);
 					System.out.println("케이스 6");
 
 					String str3=in.readUTF();

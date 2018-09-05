@@ -3,6 +3,9 @@ package com.mini.gui;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
@@ -152,7 +155,7 @@ public class Chatting_Frame extends JFrame {
 					//컨트롤 + 엔터키 입력시 다음줄 입력 
 					if(e.isControlDown()){
 						input_message.append(System.lineSeparator());
-						System.out.println("컨드롤 엔터");
+//						System.out.println("컨드롤 엔터");
 					}else {
 						String str = input_message.getText();
 						System.out.println("실행확인"+Connection.id);
@@ -168,7 +171,7 @@ public class Chatting_Frame extends JFrame {
 		input_bt.addActionListener(e->{
 			String str = input_message.getText();
 			client_Net.send(Connection.id+" : "+str);
-			System.out.println("여기에요");
+//			System.out.println("여기에요");
 			input_message.setText("");
 		});
 		
@@ -207,6 +210,13 @@ public class Chatting_Frame extends JFrame {
 		item7.addActionListener(e->{
 			JOptionPane.showMessageDialog(con, "프로그램 구성내용 ","프로그램 정보",JOptionPane.INFORMATION_MESSAGE);
 		});
+		WindowListener w = new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				client_Net.send("종료종료");
+			}
+		};
+		addWindowListener(w);
 
 	}
 	/**
@@ -284,7 +294,7 @@ public class Chatting_Frame extends JFrame {
 	Runnable r =()->{
 		while(true) {
 			String str=client_Net.receive();
-			if(str!=null) {
+			if(str!=null||!str.equals("123123")) {
 				chat.append(str+"\n");
 				chat.setCaretPosition(chat.getDocument().getLength());
 			}

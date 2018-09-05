@@ -40,26 +40,45 @@ public class Lobby extends JFrame{
 
 		jt2.setBounds(162, 76, 110, 72);
 		con.add(jt2);
-		
+
 		btnNewButton.setBounds(162, 186, 97, 23);
 		con.add(btnNewButton);
-		
+
 		lblNewLabel.setBounds(12, 190, 57, 15);
 		con.add(lblNewLabel);
 	}
 	public void event() {
 		jt1.addActionListener(e->{
 			try {
-				serverCon.getOut().writeInt(Selection.CREATE_ROOM);
-				serverCon.getOut().flush();
-				String RoomName =JOptionPane.showInputDialog("채팅방이름을 입력하세세요");
-				serverCon.getOut().writeUTF(RoomName);
-				serverCon.getOut().flush();
-				serverCon.getOut().writeInt(Selection.ROOM_CHAT);
-				serverCon.getOut().flush();
-				serverCon.getOut().writeUTF(RoomName);
-				serverCon.getOut().flush();
-				Chatting_Frame g = new Chatting_Frame(serverCon,RoomName);
+				while(true) {
+					serverCon.getOut().writeInt(Selection.CREATE_ROOM);
+					serverCon.getOut().flush();
+					String RoomName =JOptionPane.showInputDialog("채팅방이름을 입력하세세요");
+					if(RoomName==null||RoomName.equals("")) {
+						String str = "123123";
+						serverCon.getOut().writeUTF(str);
+						serverCon.getOut().flush();
+					}else {
+						serverCon.getOut().writeUTF(RoomName);
+						serverCon.getOut().flush();
+					}
+					String receiveRe=serverCon.getIn().readUTF();
+					System.out.println(receiveRe);
+					if(RoomName==null) {
+						display();
+						break;
+					}
+					else {
+						if(!receiveRe.equals("중복이되어 안만들어짐")) {
+							serverCon.getOut().writeInt(Selection.ROOM_CHAT);
+							serverCon.getOut().flush();
+							serverCon.getOut().writeUTF(RoomName);
+							serverCon.getOut().flush();
+							Chatting_Frame g = new Chatting_Frame(serverCon,RoomName);
+						}
+						break;
+					}
+				}
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -89,11 +108,13 @@ public class Lobby extends JFrame{
 					else {
 						String str=serverCon.receive();
 						System.out.println(str);
-						serverCon.getOut().writeInt(Selection.ROOM_CHAT);
-						serverCon.getOut().flush();
-						serverCon.getOut().writeUTF(RoomName);
-						serverCon.getOut().flush();
-						Chatting_Frame g = new Chatting_Frame(serverCon,RoomName);
+						if(!str.equals("찾는방이없음")) {
+							serverCon.getOut().writeInt(Selection.ROOM_CHAT);
+							serverCon.getOut().flush();
+							serverCon.getOut().writeUTF(RoomName);
+							serverCon.getOut().flush();
+							Chatting_Frame g = new Chatting_Frame(serverCon,RoomName);
+						}
 						break;
 					}
 				}
