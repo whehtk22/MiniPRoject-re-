@@ -130,38 +130,37 @@ public class Member_Join extends JDialog {
 			sb1.append(pw);
 			sb2.append(pwo);
 //			비밀번호를 똑같이 입력했는지 검사
-			if (sb1.toString().equals(sb2.toString())) {
+
 				/**
 				 * 회원가입 부분 아이디 비밀번호 이름 입력후 clientUserDb를 통해 저장
 				 */
 				try {
-				ClientUserDb userInfo = new ClientUserDb(id, sb1.toString(), name);
-				serverCon.getOut().writeObject(userInfo);
-				serverCon.getOut().flush();
+
+					ClientUserDb userInfo = new ClientUserDb(id, sb1.toString(), name);
+					if(sb1.toString().equals(sb2.toString())) {
+						serverCon.getOut().writeObject(userInfo);
+						serverCon.getOut().flush();
+						boolean ox = serverCon.getIn().readBoolean();
+						System.out.println("여기 : "+ox);	
+						if(ox) {
+							JOptionPane.showMessageDialog(con, "이미 존재하는 아이디 입니다.");
+						}
+						else {
+							JOptionPane.showMessageDialog(con, "회원가입을 성공하셨습니다.", "회원가입성공", JOptionPane.INFORMATION_MESSAGE);
+							dispose();
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(con, "비밀번호가 일치하지 않습니다.");
+					}
+				
 				}catch(Exception e1) {
 					e1.printStackTrace();
 				}
 				/**
 				 * Client_Private 생성자를 통해 유저의 고유 파일을 생성
 				 */
-				try {
-//					Client_Private data = new Client_Private();
-//					data.clientUserSave(userInfo, id);
-//				[3] Client_Private 객체 생성
-					/**
-					 * clientUserData에 있는 객체를 서버에서 파일로 저장
-					 */
-					
-					JOptionPane.showMessageDialog(con, "회원가입을 성공하셨습니다.", "회원가입성공", JOptionPane.INFORMATION_MESSAGE);
-					
-					dispose();
-				} catch (Exception e1) {
-				}
-
-			} else {
-				System.out.println("비밀번호가 일치하지 않습니다.");
-			}
-
+				
 		});
 
 	}
