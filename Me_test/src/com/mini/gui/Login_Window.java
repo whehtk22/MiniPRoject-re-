@@ -124,16 +124,11 @@ public class Login_Window extends JFrame {
 			boolean ox= serverCon.getIn().readBoolean();
 			System.out.println(ox);
 				if(ox) {
-
-					try {
 						serverCon.setId(id);
-						serverCon.getOut().writeInt(Selection.CHAT);
-						serverCon.getOut().flush();
-						Chatting_Frame g = new Chatting_Frame(serverCon);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+						Lobby testLobby = new Lobby(serverCon);
+//						serverCon.getOut().writeInt(Selection.CHAT);
+//						Chatting_Frame g = new Chatting_Frame(serverCon);
+					
 				}
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block

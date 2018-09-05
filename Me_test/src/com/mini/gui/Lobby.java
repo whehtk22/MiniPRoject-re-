@@ -1,12 +1,18 @@
 package com.mini.gui;
 
 import java.awt.*;
+import java.io.IOException;
+
 import javax.swing.*;
+
+import com.mini.client.Connection;
+import com.mini.db.Selection;
 
 /**
  *	Swing에서 사용하는 Frame : JFrame 
  */
 public class Lobby extends JFrame{
+	private Connection serverCon;
 	//컴포넌트를 배치할 영역을 JPanel로 구현
 	private JPanel con = new JPanel();
 	private JLabel jl = new JLabel("메신저 테스트");
@@ -35,15 +41,45 @@ public class Lobby extends JFrame{
 	}
 	public void event() {
 		jt1.addActionListener(e->{
+			try {
+				serverCon.getOut().writeInt(Selection.CREATE_ROOM);
+				serverCon.getOut().flush();
+				String RoomName =JOptionPane.showInputDialog("채팅방이름을 입력하세세요");
+				serverCon.getOut().writeUTF(RoomName);
+				serverCon.getOut().flush();
+				serverCon.getOut().writeInt(Selection.ROOM_CHAT);
+				serverCon.getOut().flush();
+				serverCon.getOut().writeUTF(RoomName);
+				serverCon.getOut().flush();
+				Chatting_Frame g = new Chatting_Frame(serverCon);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		
 		});
 		jt2.addActionListener(e->{
-		});
+			try {
+			serverCon.getOut().writeInt(Selection.SEARCH_ROOM);
+			serverCon.getOut().flush();
+			String RoomName =JOptionPane.showInputDialog("채팅방이름을 입력하세세요");
+			serverCon.getOut().writeUTF(RoomName);
+			serverCon.getOut().flush();
+			String str=serverCon.receive();
+			System.out.println(str);
+			serverCon.getOut().writeInt(Selection.ROOM_CHAT);
+			serverCon.getOut().flush();
+			serverCon.getOut().writeUTF(RoomName);
+			serverCon.getOut().flush();
+			Chatting_Frame g = new Chatting_Frame(serverCon);
+			}catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			});
 	}
 	
-	public Lobby () {
-		System.out.println("로비?");
-		System.out.println("디스플레이?");
+	public Lobby (Connection serverCon) {
+		this.serverCon =serverCon;
 		this.display();
 		this.event();
 		this.setLocationByPlatform(true);

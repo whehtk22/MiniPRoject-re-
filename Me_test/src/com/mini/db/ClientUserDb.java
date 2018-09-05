@@ -25,7 +25,7 @@ public class ClientUserDb implements Serializable{
 		this.id = id;
 		this.setPassword(password);
 		this.setUser_name(name);
-		System.out.println(this.getUser_name());
+//		System.out.println(this.getUser_name());
 	}
 	
 

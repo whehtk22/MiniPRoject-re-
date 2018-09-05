@@ -39,7 +39,7 @@ public class Client extends Thread{
 				case 2:
 					System.out.println("일단 케이스 2");
 					Map<String,String> idCheck =(HashMap<String, String>) in.readObject();
-					System.out.println(idCheck);
+//					System.out.println(idCheck);
 					DataInfoOpen open = new DataInfoOpen();
 					
 					for(Map.Entry<String, String> asd : idCheck.entrySet()) {
@@ -56,7 +56,26 @@ public class Client extends Thread{
 						System.out.println("받은 문자열"+str);						
 						server.broadcast(str);
 					}
-
+				case 4:
+					System.out.println("케이스 4");
+					String str=in.readUTF();
+					System.out.println(str);
+					server.addChatRoom(str,this);
+					break;
+				case 5:
+					System.out.println("케이스5");
+					String RoomName=in.readUTF();
+					System.out.println(RoomName+":확인용");
+					while(true) {
+						String str2=in.readUTF();
+						System.out.println("받은 문자열"+str2);
+						server.RoomChat(RoomName,str2);
+					}
+				case 6:
+					System.out.println("케이스 6");
+					String str3=in.readUTF();
+					System.out.println(str3);
+					server.SearchRoom(str3,this);
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

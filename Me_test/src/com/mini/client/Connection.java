@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 public class Connection {
 	private InetAddress inet;
-	private int port =40000;
+	private int port =20000;
 	private Socket socket;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
@@ -53,7 +53,7 @@ public class Connection {
 	}
 
 	public Connection()  throws IOException{
-		this.inet = InetAddress.getByName("192.168.0.3");
+		this.inet = InetAddress.getByName("localhost");
 		this.socket= new Socket(inet, port);
 		out= new ObjectOutputStream(this.socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
@@ -61,7 +61,7 @@ public class Connection {
 	
 	public Connection(String id) throws IOException {
 		Connection.id=id;
-		this.inet = InetAddress.getByName("192.168.0.3");
+		this.inet = InetAddress.getByName("localhost");
 		this.socket= new Socket(inet, port);
 		out= new ObjectOutputStream(this.socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
