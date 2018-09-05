@@ -16,6 +16,7 @@ import javax.swing.*;
  */
 public class Member_Join extends JDialog {
 	
+	
 	private Connection serverCon;
 
 //컴포넌트를 배치할 영역을 JPanel로 구현
@@ -115,7 +116,7 @@ public class Member_Join extends JDialog {
 
 		// 취소 버튼 누를시 종료
 		btcan.addActionListener(e -> {
-			System.exit(0);
+			dispose();
 		});
 
 		// 확인 버튼 입력시
