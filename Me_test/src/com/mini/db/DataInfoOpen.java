@@ -31,7 +31,7 @@ public class DataInfoOpen {
 	
 	
 	public boolean searchId(String id) {
-		boolean bool = true;
+		boolean bool = false;
 		for(String k : user.keySet()) {
 			System.out.println("k : "+k);
 			if(k.equals(id)) {

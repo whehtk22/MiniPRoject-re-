@@ -115,7 +115,7 @@ public class Member_Join extends JDialog {
 
 		// 취소 버튼 누를시 종료
 		btcan.addActionListener(e -> {
-			System.exit(0);
+			dispose();
 		});
 
 		// 확인 버튼 입력시

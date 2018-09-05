@@ -30,16 +30,18 @@ public class Client extends Thread{
 				
 				switch(in.readInt()) {
 				case 1:
-					boolean bool = true;
 					while(true){
 					ClientUserDb user = (ClientUserDb)in.readObject();
+//					if(user == null) {
+//						break;
+//					}
 					DataInfoOpen searchId = new DataInfoOpen();
 					System.out.println("user = "+user);
 					System.out.println(searchId);
 					
 					
 					
-					bool = searchId.searchId(user.getId());
+					boolean bool = searchId.searchId(user.getId());
 					System.out.println("search = "+bool);
 					out.writeBoolean(bool);
 					out.flush();
@@ -51,9 +53,7 @@ public class Client extends Thread{
 						break;
 						}
 					}
-					if(bool == true) {
-						break;						
-					}
+						break;			
 				case 2:
 					System.out.println("일단 케이스 2");
 					Map<String,String> idCheck =(HashMap<String, String>) in.readObject();
