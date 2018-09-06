@@ -82,20 +82,18 @@ public class Connection {
 			}
 			out.writeUTF(message);
 			out.flush();
-			System.out.println(message);
-			System.out.println("전달했음");
 		}catch(Exception e) {
 			System.err.println("클라이언트측 이상하게종료됨");
 		}
 	}
 	public String receive() {
-		System.out.println("받고있나");
 		String str="";
 		try {
 			str = in.readUTF();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			System.out.println(str);
+		} catch (Exception e) {
+			return "123123";
 		}
 		return str;
 	}

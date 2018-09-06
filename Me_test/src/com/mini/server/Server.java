@@ -23,6 +23,7 @@ public class Server {
 
 	public Server() throws IOException {
 		this.server = new ServerSocket(port);
+		chatList.put("start", new ArrayList<>());
 	}
 
 	public void work() throws IOException, ClassNotFoundException, InterruptedException {
@@ -47,11 +48,33 @@ public class Server {
 	/*
 	 * 추가 메소드
 	 */
-	public void addChatRoom(String name,Client this_) {
+	public boolean addChatRoom(String name,Client this_) {
+		boolean makeOk =false;
 		List<Client> firstList = new ArrayList<>();
-		firstList.add(this_);
-		chatList.put(name, firstList);
+		for(Map.Entry<String, List<Client>>asd:chatList.entrySet()) {
+			if(!asd.getKey().equals(name))
+				makeOk=true;
+			else {
+				makeOk=false;
+				break;
+			}
+		}
+		System.out.println("중복검사결과"+makeOk);
+		if(makeOk) {
+			firstList.add(this_);
+			chatList.put(name, firstList);
+		}
 		System.out.println(chatList);
+		try {
+			if(makeOk==false) {
+				this_.send("YouCan'tCreateRoom");
+			}else {
+				this_.send("됨");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return makeOk;
 	}
 	public void RoomChat(String RoomName,String str) {
 		List<Client> list = new ArrayList<>();
@@ -68,18 +91,22 @@ public class Server {
 		}
 	}
 	public void SearchRoom(String RoomName,Client this_) {
+		String returM="";
 		List<Client> list = new ArrayList<>();
 		for(Map.Entry<String, List<Client>>asd:chatList.entrySet()) {
 			if(asd.getKey().equals(RoomName)) {
 				list= asd.getValue();
 				list.add(this_);
 				chatList.put(RoomName, list);
+				returM = RoomName+"방이 존재합니다";
 				System.out.println(list);
 				break;
+			}else {
+				returM ="찾는방이없음";
 			}
 		}
+		System.out.println(returM);
 		System.out.println(chatList+"확인용"+list);
-		String returM = RoomName+"방이 존재합니다";
 		try {
 			this_.send(returM);
 		} catch (IOException e) {
