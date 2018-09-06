@@ -69,7 +69,7 @@ public class Lobby extends JFrame{
 						break;
 					}
 					else {
-						if(!receiveRe.equals("중복이되어 안만들어짐")) {
+						if(receiveRe.equals("됨")) {
 							serverCon.getOut().writeInt(Selection.ROOM_CHAT);
 							serverCon.getOut().flush();
 							serverCon.getOut().writeUTF(RoomName);

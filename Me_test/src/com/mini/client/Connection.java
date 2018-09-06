@@ -92,8 +92,7 @@ public class Connection {
 			str = in.readUTF();
 			
 			System.out.println(str);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			return "123123";
 		}
 		return str;

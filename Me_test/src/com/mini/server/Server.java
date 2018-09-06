@@ -59,7 +59,7 @@ public class Server {
 				break;
 			}
 		}
-		System.out.println(makeOk);
+		System.out.println("중복검사결과"+makeOk);
 		if(makeOk) {
 			firstList.add(this_);
 			chatList.put(name, firstList);
@@ -67,12 +67,11 @@ public class Server {
 		System.out.println(chatList);
 		try {
 			if(makeOk==false) {
-				this_.send("중복이되어 안만들어짐");
+				this_.send("YouCan'tCreateRoom");
 			}else {
 				this_.send("됨");
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return makeOk;

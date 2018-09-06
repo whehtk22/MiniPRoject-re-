@@ -292,11 +292,15 @@ public class Chatting_Frame extends JFrame {
 	}
 
 	Runnable r =()->{
+		System.out.println("데이터 수신중");
 		while(true) {
 			String str=client_Net.receive();
-			if(str!=null||!str.equals("123123")) {
+			if(!str.equals("123123")) {
 				chat.append(str+"\n");
 				chat.setCaretPosition(chat.getDocument().getLength());
+				System.out.println("수신");
+			}else {
+				
 			}
 		}
 	};
