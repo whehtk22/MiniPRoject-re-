@@ -1,15 +1,23 @@
 package com.mini.gui;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
+
 import com.mini.client.Connection;
-import com.mini.db.*;
+import com.mini.db.Selection;
 
 /**
  * Swing에서 사용하는 Frame : JFrame
@@ -125,12 +133,15 @@ public class Login_Window extends JFrame {
 			System.out.println(ox);
 				if(ox) {
 						serverCon.setId(id);
-						Lobby testLobby = new Lobby(serverCon);
+						System.out.println("확인");
+						ArrayList<String> chatList = (ArrayList<String>)serverCon.getIn().readObject();
+						System.out.println(chatList);
+						Lobby testLobby = new Lobby(serverCon,chatList);
 //						serverCon.getOut().writeInt(Selection.CHAT);
 //						Chatting_Frame g = new Chatting_Frame(serverCon);
 					
 				}
-			} catch (IOException e1) {
+			} catch (IOException | ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}

@@ -7,12 +7,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -34,7 +36,7 @@ public class Chatting_Frame extends JFrame {
 	//컴포넌트를 배치할 영역을 JPanel로 구현
 	//컴포넌트를 배치할 영역을 JPanel로 구현
 	private JPanel con = new JPanel();
-
+	private String roomName;
 	private JMenuBar bar = new JMenuBar();
 	private JMenu file_menu = new JMenu("파일");
 	private JMenu friend_menu = new JMenu("친구");
@@ -64,7 +66,8 @@ public class Chatting_Frame extends JFrame {
 	private JTextArea chat = new JTextArea("");
 	private JScrollPane plchat = new JScrollPane(chat);
 	private JLabel lb2 = new JLabel("내 이미지 상태 표시 영역");
-	private JLabel lb3 = new JLabel("대화중인 상대방 표시영역 ");
+	//private JLabel lb3 = new JLabel("대화중인 상대방 표시영역 ");//친구리스트
+	private JList jlist;
 	private Border b1 = BorderFactory.createLineBorder(Color.black, 1, true);
 
 
@@ -111,9 +114,9 @@ public class Chatting_Frame extends JFrame {
 		lb2.setBorder(b1);
 
 		// 상대 표시창 
-		lb3.setBounds(380, 75, 90, 355);
-		con.add(lb3);
-		lb3.setBorder(b1);
+		jlist.setBounds(380, 75, 90, 355);
+		con.add(jlist);
+		//jlist.setBorder(b1);
 
 
 		//옵션아이콘 1번
@@ -162,7 +165,8 @@ public class Chatting_Frame extends JFrame {
 						client_Net.send(Connection.id+" : "+str);
 						e.consume(); // 엔터입력시 줄 초기화 
 						input_message.setText("");
-					}
+					
+						}
 				}
 			}
 		});
@@ -173,6 +177,7 @@ public class Chatting_Frame extends JFrame {
 			client_Net.send(Connection.id+" : "+str);
 //			System.out.println("여기에요");
 			input_message.setText("");
+			
 		});
 		
 		//파일 전송버튼
@@ -275,12 +280,14 @@ public class Chatting_Frame extends JFrame {
 
 
 	public Chatting_Frame(Connection client_Net,String roomName) {
+		jlist = new JList();
 		this.client_Net=client_Net;
 		this.display();
 		this.event();
 		this.menu();
+		System.out.println("갓나");
 		//스레드시작(문자받기)
-
+		this.roomName = roomName;
 		this.setTitle(roomName);
 		this.setLocationByPlatform(true);
 		this.setSize(500, 600);
@@ -299,7 +306,19 @@ public class Chatting_Frame extends JFrame {
 				chat.append(str+"\n");
 				chat.setCaretPosition(chat.getDocument().getLength());
 				System.out.println("수신");
+				String[] str3 = new String[] {"한글","영어"};
+				jlist.setListData(str3);
 			}else {
+			}
+			try {//채팅입력하기 전에 먼저 채팅방의 친구목록을 받는 과정
+				System.out.println("채팅후에 받아지는가");
+				System.out.println((ArrayList<String>)client_Net.getIn().readObject());
+				ArrayList<String> list = (ArrayList<String>)client_Net.getIn().readObject();
+				String str1 = "";
+				for(int i = 0;i<list.size();i++) {
+					str1 = list.get(i)+"\n";
+				}
+			}catch(Exception e) {
 				
 			}
 		}
